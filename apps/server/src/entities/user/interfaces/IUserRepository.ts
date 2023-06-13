@@ -1,4 +1,4 @@
-import { UserModel } from '@prisma/client';
+import { User as UserModel } from '@prisma/client';
 import { User } from '../user.entity';
 
 export interface IUserRepository {
