@@ -37,3 +37,7 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+
+# app
+/postgres/db_data
+.env

@@ -7,7 +7,8 @@
     "generate": "npx prisma generate",
     "migrate-dev": "npx prisma migrate dev",
     "check-updates": "npx npm-check-updates",
-    "update-packages": "npx npm-check-updates -u"
+    "update-packages": "npx npm-check-updates -u",
+    "nx": "nx serve server"
   },
   "private": true,
   "dependencies": {
