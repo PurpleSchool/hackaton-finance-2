@@ -8,7 +8,15 @@
     },
     {
       "files": ["*.ts", "*.tsx"],
-      "rules": {}
+      "parserOptions": {
+        "project": ["apps/client/tsconfig.*?.json"]
+      },
+      "rules": {
+        "@typescript-eslint/ban-ts-comment": "off",
+        "@typescript-eslint/ban-types": "off",
+        "@typescript-eslint/no-explicit-any": "off",
+        "react/jsx-no-useless-fragment": "off"
+      }
     },
     {
       "files": ["*.js", "*.jsx"],
