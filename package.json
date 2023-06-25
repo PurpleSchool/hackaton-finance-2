@@ -10,6 +10,9 @@
     "update-packages": "npx npm-check-updates -u",
     "nx": "nx serve server"
   },
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
+  },
   "private": true,
   "dependencies": {
     "@prisma/client": "^4.15.0",

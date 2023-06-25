@@ -10,6 +10,9 @@ import { IPrismaService } from './database/IPrismaService';
 import { IUserController } from './entities/user/interfaces/IUserController';
 import { IUserService } from './entities/user/interfaces/IUserService';
 import { IUserRepository } from './entities/user/interfaces/IUserRepository';
+import { IAccountController } from './entities/account/interfaces/IAccountController';
+import { IAccountService } from './entities/account/interfaces/IAccountService';
+import { IAccountRepository } from './entities/account/interfaces/IAccountRepository';
 
 /** Utils */
 import { ConfigService } from './config/config.service';
@@ -21,6 +24,9 @@ import { ExceptionFilter } from './errors/ExceptionFilter';
 import { UserController } from './entities/user/user.controller';
 import { UserService } from './entities/user/user.service';
 import { UserRepository } from './entities/user/user.repository';
+import { AccountController } from './entities/account/account.controller';
+import { AccountService } from './entities/account/account.service';
+import { AccountRepository } from './entities/account/account.repository';
 
 import { App } from './app';
 
@@ -33,12 +39,15 @@ export interface IBootstrapReturn {
 export const appBindings = new ContainerModule((bind: interfaces.Bind) => {
   bind<App>(TYPES.Application).to(App);
   bind<IUserController>(TYPES.UserController).to(UserController);
+  bind<IAccountController>(TYPES.AccountController).to(AccountController);
   bind<IUserService>(TYPES.UserService).to(UserService);
+  bind<IAccountService>(TYPES.AccountService).to(AccountService);
   bind<IExceptionFilter>(TYPES.ExceptionFilter).to(ExceptionFilter);
   bind<ILoggerService>(TYPES.Logger).to(LoggerService).inSingletonScope();
   bind<IConfigService>(TYPES.ConfigService).to(ConfigService).inSingletonScope();
   bind<IPrismaService>(TYPES.PrismaService).to(PrismaService).inSingletonScope();
   bind<IUserRepository>(TYPES.UserRepository).to(UserRepository).inSingletonScope();
+  bind<IAccountRepository>(TYPES.AccountRepository).to(AccountRepository).inSingletonScope();
 });
 
 async function bootstrap(): Promise<IBootstrapReturn> {
