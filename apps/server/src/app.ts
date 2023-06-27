@@ -13,6 +13,7 @@ import { IPrismaService } from './database/IPrismaService';
 
 /** Entities */
 import { IUserController } from './entities/user/interfaces/IUserController';
+import { IAccountController } from './entities/account/interfaces/IAccountController';
 
 @injectable()
 export class App {
@@ -26,6 +27,7 @@ export class App {
     @inject(TYPES.ConfigService) private _configService: IConfigService,
     @inject(TYPES.PrismaService) private _prismaService: IPrismaService,
     @inject(TYPES.UserController) private _userController: IUserController,
+    @inject(TYPES.AccountController) private _accountController: IAccountController,
   ) {
     this.app = express();
     this.port = Number(process.env.PORT) || 3333;
@@ -39,6 +41,7 @@ export class App {
 
   useRoutes(): void {
     this.app.use('/auth', this._userController.router);
+    this.app.use('/account', this._accountController.router);
   }
 
   useExceptionFilters(): void {

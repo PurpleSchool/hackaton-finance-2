@@ -54,12 +54,12 @@ export class UserController extends BaseController implements IUserController {
     res: Response,
     next: NextFunction,
   ): Promise<void> {
-    const result = await this._userService.loginUser(body);
-    if (!result) {
+    const userId = await this._userService.loginUser(body);
+    if (!userId) {
       return next(new HttpError(401, 'Authorization error', 'Login'));
     }
 
-    const jwt = await this.#signJWT(body.email, this._configService.getConfig('SECRET'));
+    const jwt = await this.#signJWT(body.email, userId, this._configService.getConfig('SECRET'));
     this.success(res, { accessToken: jwt });
   }
 
@@ -81,11 +81,12 @@ export class UserController extends BaseController implements IUserController {
     this.success(res, result);
   }
 
-  #signJWT(email: string, secret: string): Promise<string> {
+  #signJWT(email: string, userId: number | boolean, secret: string): Promise<string> {
     return new Promise((resolve, reject) => {
       sign(
         {
           email,
+          userId,
           iat: Math.floor(Date.now() / 1000),
         },
         secret,

@@ -17,12 +17,15 @@ export class UserService implements IUserService {
     @inject(TYPES.UserRepository) private _userRepository: IUserRepository,
   ) {}
 
-  async loginUser({ email, password }: UserLoginDto): Promise<boolean> {
+  async loginUser({ email, password }: UserLoginDto): Promise<number | boolean> {
     const existedUser = await this._userRepository.find(email);
     if (!existedUser) return false;
 
     const newUser = new User(existedUser.email, existedUser.name);
-    return newUser.comparePasswords(password, existedUser.password);
+    if (!newUser.comparePasswords(password, existedUser.password)) {
+      return false;
+    }
+    return existedUser.id;
   }
 
   async createUser({ email, name, password }: UserRegisterDto): Promise<UserModel | null> {
