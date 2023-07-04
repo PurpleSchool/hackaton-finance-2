@@ -39,7 +39,7 @@ export abstract class BaseController {
   protected bindRoutes(routes: IControllerRoute[]): void {
     for (const route of routes) {
       this.#loggerService.log(`[${route.method.toUpperCase()}] ${route.path}`);
-
+      console.log(route);
       const middleware = (route.middlewares || []).map((item: IMiddleware) =>
         item.execute.bind(item),
       );
