@@ -1,4 +1,4 @@
-import { Category as CategoryModel, Prisma } from '@prisma/client';
+import { Category as CategoryModel } from '@prisma/client';
 import { inject, injectable } from 'inversify';
 
 import { TYPES } from '../../types';
