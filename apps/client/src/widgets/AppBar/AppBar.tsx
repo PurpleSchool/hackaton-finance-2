@@ -13,14 +13,18 @@ import Badge from '@mui/material/Badge';
 import Menu from '@mui/material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import InputBase from '@mui/material/InputBase';
-
-import Container from '@mui/material/Container';
+import CircleNotificationsIcon from '@mui/icons-material/CircleNotifications';
 import Stack from '@mui/material/Stack';
-import NotificationsIcon from '@mui/icons-material/Notifications';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import AdbIcon from '@mui/icons-material/Adb';
+import TextField from '@mui/material/TextField';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+
 interface AppBarProps extends MuiAppBarProps {
   open?: boolean;
   setOpen?: () => void;
@@ -67,7 +71,17 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 const settings = ['Profile', 'Account', 'Logout'];
 const drawerWidth = 240;
-
+const BootstrapButton = styled(Button)({
+  boxShadow: 'none',
+  textTransform: 'none',
+  fontSize: 16,
+  padding: '6px 24px',
+  border: '1px solid',
+  lineHeight: 1.5,
+  backgroundColor: '#0063cc',
+  borderColor: '#0063cc',
+  fontFamily: ['Roboto', '"Helvetica Neue"', 'Arial', 'sans-serif'].join(','),
+});
 const Bar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== 'open',
 })<AppBarProps>(({ theme, open }) => ({
@@ -87,6 +101,16 @@ const Bar = styled(MuiAppBar, {
 }));
 
 export function AppBar({ open, setOpen }: AppBarProps) {
+  const [openDialog, setOpenDialog] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpenDialog(true);
+  };
+
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+  };
+
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
@@ -95,22 +119,12 @@ export function AppBar({ open, setOpen }: AppBarProps) {
     setAnchorElUser(null);
   };
 
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const openMenu = Boolean(anchorEl);
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
       <Bar position="fixed" open={open}>
-        <Toolbar style={{ background: '#fdbb00' }}>
+        <Toolbar>
           <IconButton
-            style={{ background: '#ffdd6e' }}
             color="inherit"
             aria-label="open drawer"
             onClick={setOpen}
@@ -132,24 +146,49 @@ export function AppBar({ open, setOpen }: AppBarProps) {
             </SearchIconWrapper>
             <StyledInputBase placeholder="Search expense" inputProps={{ 'aria-label': 'search' }} />
           </Search>
-          <Stack spacing={2} direction="row">
-            <Button size="medium" variant="contained" onClick={handleClick}>
-              +Add Expense
-            </Button>
-            <Menu
-              id="basic-menu"
-              anchorEl={anchorEl}
-              open={openMenu}
-              onClose={handleClose}
-              MenuListProps={{
-                'aria-labelledby': 'basic-button',
-              }}
-            >
-              <MenuItem onClick={handleClose}>Profile</MenuItem>
-              <MenuItem onClick={handleClose}>My account</MenuItem>
-              <MenuItem onClick={handleClose}>Logout</MenuItem>
-            </Menu>
-          </Stack>
+          <div>
+            <Stack spacing={2} direction="row">
+              <BootstrapButton variant="contained" disableRipple onClick={handleClickOpen}>
+                +Add Expense
+              </BootstrapButton>
+            </Stack>
+            <Dialog open={openDialog} onClose={handleCloseDialog}>
+              <DialogTitle>Add Expense</DialogTitle>
+              <DialogContent>
+                <DialogContentText>Добавьте сумму расходов</DialogContentText>
+                <TextField
+                  autoFocus
+                  margin="dense"
+                  id="name"
+                  type="text"
+                  fullWidth
+                  variant="standard"
+                />
+                <DialogContentText>Описание</DialogContentText>
+                <TextField
+                  autoFocus
+                  margin="dense"
+                  id="name"
+                  type="text"
+                  fullWidth
+                  variant="standard"
+                />
+                <DialogContentText>Категория</DialogContentText>
+                <TextField
+                  autoFocus
+                  margin="dense"
+                  id="name"
+                  type="text"
+                  fullWidth
+                  variant="standard"
+                />
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={handleCloseDialog}>Cancel</Button>
+                <Button onClick={handleCloseDialog}>Save</Button>
+              </DialogActions>
+            </Dialog>
+          </div>
 
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
@@ -160,7 +199,7 @@ export function AppBar({ open, setOpen }: AppBarProps) {
             </IconButton>
             <IconButton size="large" aria-label="show 17 new notifications" color="inherit">
               <Badge badgeContent={17} color="error" variant="dot">
-                <NotificationsIcon />
+                <CircleNotificationsIcon />
               </Badge>
             </IconButton>
           </Box>
